@@ -1,0 +1,17 @@
+sources:
+  sql:
+    [
+      table_1_ingest.yml,
+      table_2_ingest.yml,
+      table_3_ingest.yml
+    ]
+  api:
+    [
+      endpoint_1_ingest.yml,
+      endpoint_2_ingest.yml
+    ]
+  files:
+    [
+      file_1_ingest.yml,
+      file_2_ingest.yml
+    ]
