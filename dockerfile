@@ -6,6 +6,15 @@ RUN apt-get update && \
     apt-get install -y openjdk-8-jdk mysql-server mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
+# Load the auth_socket plugin
+RUN echo '[mysqld]' >> /etc/mysql/my.cnf && \
+    echo 'plugin-load-add=auth_socket.so' >> /etc/mysql/my.cnf
+
+# Set the password for the MySQL root user
+RUN service mysql start && \
+    mysqladmin -u root password '<here_provide_your_password' && \
+    service mysql stop
+
 ENV APACHE_SPARK_VERSION 3.3.2
 ENV HADOOP_VERSION 3
 
