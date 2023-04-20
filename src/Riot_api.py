@@ -46,38 +46,37 @@ class RiotAPI:
             print(f'Request failed with status code: {response.status_code}')
             return None
         
-    def get_last_champion_played(self, summoner_name: str, region: str) -> Optional[int]:
+    def get_last_20_champions_played(self, summoner_name: str, region: str) -> List[int]:
+        champions = []
         match_history = self.get_match_history(summoner_name, region)
         if match_history:
-            last_match_id = match_history[0]
-            last_match_details = self.get_match_details(last_match_id, region)
-            if last_match_details:
-                puuid = self.get_summoner(summoner_name)['puuid']
-                for participant in last_match_details['info']['participants']:
-                    if participant['puuid'] == puuid:
-                        return participant['championId']
-        return None
-    
-    def get_last_match_result(self, summoner_name: str, region: str) -> Optional[Dict[str, Any]]:
+            for match_id in match_history[:20]:
+                match_details = self.get_match_details(match_id, region)
+                if match_details:
+                    puuid = self.get_summoner(summoner_name)['puuid']
+                    for participant in match_details['info']['participants']:
+                        if participant['puuid'] == puuid:
+                            champions.append(participant['championId'])
+        return champions
+
+    def get_last_20_match_results(self, summoner_name: str, region: str) -> List[Dict[str, Any]]:
+        results = []
         match_history = self.get_match_history(summoner_name, region)
         if match_history:
-            last_match_id = match_history[0]
-            last_match_details = self.get_match_details(last_match_id, region)
-            if last_match_details:
-                puuid = self.get_summoner(summoner_name)['puuid']
-                for participant in last_match_details['info']['participants']:
-                    if participant['puuid'] == puuid:
-                        result = {
-                            'win': participant['win'],
-                            'kills': participant['kills'],
-                            'deaths': participant['deaths'],
-                            'assists': participant['assists']
-                        }
-                        return result
-        return None
-    
-    import requests
-from typing import Dict
+            for match_id in match_history[:20]:
+                match_details = self.get_match_details(match_id, region)
+                if match_details:
+                    puuid = self.get_summoner(summoner_name)['puuid']
+                    for participant in match_details['info']['participants']:
+                        if participant['puuid'] == puuid:
+                            result = {
+                                'win': participant['win'],
+                                'kills': participant['kills'],
+                                'deaths': participant['deaths'],
+                                'assists': participant['assists']
+                            }
+                            results.append(result)
+        return results
 
 
 class DataDragonAPI:
