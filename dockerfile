@@ -6,17 +6,13 @@ RUN apt-get update && \
     apt-get install -y openjdk-8-jdk mysql-server mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
-# Download the MySQL connector JAR file
-RUN mkdir -p /home/jovyan/mysql-connector-java-8.0.27 && \
-    wget -P /home/jovyan/mysql-connector-java-8.0.27 https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar
-
 # Load the auth_socket plugin
 RUN echo '[mysqld]' >> /etc/mysql/my.cnf && \
     echo 'plugin-load-add=auth_socket.so' >> /etc/mysql/my.cnf
 
 # Set the password for the MySQL root user
 RUN service mysql start && \
-    mysqladmin -u root password '<here_provide_your_password>' && \
+    mysqladmin -u root password '<here_provide_your_password' && \
     service mysql stop
 
 ENV APACHE_SPARK_VERSION 3.3.2
@@ -40,3 +36,9 @@ USER $NB_UID
 COPY src /home/jovyan/work/src
 COPY configs /home/jovyan/work/configs
 COPY notebooks /home/jovyan/work/notebooks
+COPY setup.py /home/jovyan/work
+
+# Build the wheel from the src folder and install it
+WORKDIR /home/jovyan/work
+RUN python setup.py bdist --format=wheel
+RUN pip install dist/*.whl
