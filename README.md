@@ -7,6 +7,7 @@ This project demonstrates how to migrate from an SQL database, APIs, and files i
 1. Build a Docker image for the ingest mechanism by running the following command:
 
 ```. docker build --no-cache -t delta_lakehouse .```
+
 2. After creating the image, run the container with the following command:
 
 ```run -v league-db:/var/lib/mysql -p 8899:8888 --name delta_lakehouse_v2 delta_lakehouse```
