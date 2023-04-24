@@ -14,8 +14,6 @@ This project demonstrates how to migrate from an SQL database, APIs, and files i
 
 `league-db` is a volume where the MySQL server is available. In this case, I use a prepared database from my other project [here](https://github.com/KarolKul-KK/League_Pro_Games_Analysis). 
 
-The whole idea of this project is to migrate from an SQL database, APIs, and files into a Delta Lakehouse.
-
 Note that the port is mapped to `8899` because your localhost probably already use `8888`. As a result, the URL for Jupyter has changed to `http://localhost:8899/`. You can then provide the token and start using Jupyter Notebook.
 
 3. To get a token, run the following commands:
