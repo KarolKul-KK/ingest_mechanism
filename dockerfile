@@ -45,9 +45,3 @@ COPY src /home/jovyan/work/src
 COPY configs /home/jovyan/work/configs
 COPY notebooks /home/jovyan/work/notebooks
 COPY setup.py /home/jovyan/work/
-
-# Build the wheel from the src folder and install it
-WORKDIR /home/jovyan/work
-RUN pip install wheel
-RUN python setup.py bdist --format=wheel
-RUN pip install dist/*.whl
