@@ -19,6 +19,7 @@ Note that the port is mapped to `8899` because your localhost probably already u
 3. To get a token, run the following commands:
 
 ```docker exec -it (docker_id) bash```
+
 ```jupyter server list```
 
 Docker will prepare the whole environment for you.
