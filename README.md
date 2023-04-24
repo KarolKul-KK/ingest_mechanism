@@ -2,7 +2,7 @@
 
 This project demonstrates how to migrate from an SQL database, APIs, and files into a Delta Lakehouse.
 
-## How to Run
+## How to create environment
 
 1. Build a Docker image for the ingest mechanism by running the following command:
 
@@ -22,3 +22,36 @@ Note that the port is mapped to `8899` because your localhost probably already u
 ```jupyter server list```
 
 Docker will prepare the whole environment for you.
+
+## Configuration Files
+
+This project is managed by configuration files. The main configuration file is `job_config.yml`.
+
+Here's the structure of the `job_config.yml` file:
+
+```
+yaml
+sources:
+  sql:
+    [
+      table_1_ingest.yml,
+      table_2_ingest.yml,
+      table_3_ingest.yml
+    ]
+  api:
+    [
+      endpoint_1_ingest.yml,
+      endpoint_2_ingest.yml
+    ]
+  files:
+    [
+      file_1_ingest.yml,
+      file_2_ingest.yml
+    ]
+ ```
+ 
+ Configuration files are managed by the config generator inside the Config module. You can find sample structures for each config file in the configs directory.
+
+## How to run the pipeline
+
+To run the pipeline use command:```python3 main.py```
