@@ -30,7 +30,6 @@ This project is managed by configuration files. The main configuration file is `
 Here's the structure of the `job_config.yml` file:
 
 ```
-yaml
 sources:
   sql:
     [
