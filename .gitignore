@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# spark file
+spark-3.3.2-bin-hadoop3.tgz
+
+# data directory
+data/
