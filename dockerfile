@@ -14,8 +14,13 @@ RUN echo '[mysqld]' >> /etc/mysql/my.cnf && \
 
 # Set the password for the MySQL root user
 RUN service mysql start && \
-    mysqladmin -u root password '<here_provide_your_password' && \
+    mysqladmin -u root password '<here_provide_your_password>' && \
     service mysql stop
+
+# Download and extract the MySQL Connector/J archive
+RUN wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.27.tar.gz && \
+    tar -xvzf mysql-connector-java-8.0.27.tar.gz && \
+    rm mysql-connector-java-8.0.27.tar.gz
 
 # Set environment variables for Apache Spark and Hadoop versions
 ENV APACHE_SPARK_VERSION 3.3.2
@@ -36,6 +41,9 @@ ENV PYSPARK_DRIVER_PYTHON_OPTS "notebook --NotebookApp.token='' --NotebookApp.pa
 
 # Install delta-spark using conda
 RUN conda install -c conda-forge delta-spark
+
+# Install pymysql using conda
+RUN conda install -c anaconda pymysql
 
 # Switch back to the jovyan user
 USER $NB_UID
