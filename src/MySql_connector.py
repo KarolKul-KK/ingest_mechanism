@@ -38,7 +38,7 @@ class PyMySQL:
         properties = {
             "user": self.user,
             "password": self.password,
-            "driver": "com.mysql.jdbc.Driver"
+            "driver": "com.mysql.cj.jdbc.Driver"
         }
         if query:
             query = self._clean_query(query)
