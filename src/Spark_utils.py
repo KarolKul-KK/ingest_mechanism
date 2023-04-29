@@ -1,6 +1,6 @@
 from pyspark import SparkConf
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf, when
+from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import udf, when, split, to_date
 from pyspark.sql.types import IntegerType
 
 
@@ -26,5 +26,18 @@ class SparkUtils:
     @staticmethod
     def convert_column_to_bool(df, column_name):
         return df.withColumn(column_name, when(df[column_name] == 1, True).otherwise(False))
+    
+    @staticmethod
+    def extract_date_event(df: DataFrame, column: str) -> DataFrame:
+        df = df.withColumn("Event", split(df[column], " ")[1])
+        df = df.withColumn("Date", to_date(split(df[column], " ")[0], "yyyy-MM-dd"))
+        return df
+    
+    def extract_kda(df: DataFrame, column: str) -> DataFrame:
+        df = df.withColumn("Kills", split(df[column], "/")[0].cast("int"))
+        df = df.withColumn("Deads", split(df[column], "/")[1].cast("int"))
+        df = df.withColumn("Assists", split(df[column], "/")[2].cast("int"))
+        df = df.drop(column)
+        return df
 
 convert_to_int_udf = udf(SparkUtils.convert_to_int, IntegerType())
