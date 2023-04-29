@@ -12,14 +12,14 @@ def run_pipeline(generator, spark):
             pymysql = PyMySQL(credenstials['host'], credenstials['username'], credenstials['password'], credenstials['database'])
             if key == 'sql':
                 df = pymysql.read_data_to_spark(spark, tables_info['name'], tables_info['query'])
-            if tables_info['name'] == 'general_stats':
-                df = SparkUtils.extract_date_event(df, 'Date')
-            if tables_info['name'] == 'team_stats':
-                df = SparkUtils.convert_column_to_bool(df, 'First_Blood')
-                df = SparkUtils.convert_column_to_bool(df, 'First_Tower')
-                df = df.withColumn("Gold", convert_to_int_udf(df["Gold"]))
-            if tables_info['name'] == 'player_stats':
-                df = SparkUtils.extract_kda(df, 'KDA')
+                if tables_info['name'] == 'general_stats':
+                    df = SparkUtils.extract_date_event(df, 'Date')
+                if tables_info['name'] == 'team_stats':
+                    df = SparkUtils.convert_column_to_bool(df, 'First_Blood')
+                    df = SparkUtils.convert_column_to_bool(df, 'First_Tower')
+                    df = df.withColumn("Gold", convert_to_int_udf(df["Gold"]))
+                if tables_info['name'] == 'player_stats':
+                    df = SparkUtils.extract_kda(df, 'KDA')
             elif key == 'api':
                 # handle api case
                 pass
