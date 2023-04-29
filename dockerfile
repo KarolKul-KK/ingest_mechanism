@@ -52,4 +52,4 @@ USER $NB_UID
 COPY src /home/jovyan/work/src
 COPY configs /home/jovyan/work/configs
 COPY notebooks /home/jovyan/work/notebooks
-COPY setup.py /home/jovyan/work/
+COPY main.py /home/jovyan/work
