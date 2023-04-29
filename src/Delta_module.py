@@ -1,4 +1,4 @@
-from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import SparkSession, DataFrame, Column
 from delta.tables import DeltaTable
 from typing import Union
 
@@ -20,4 +20,7 @@ class DeltaModule:
         df.write.format("delta").mode("overwrite").save(self.delta_table_path)
 
     def load_delta(self) -> DataFrame:
-        return self.spark.read.format("delta").load(self.delta_table_path)
+        if DeltaTable.isDeltaTable(self.spark, self.delta_table_path):
+            return self.spark.read.format("delta").load(self.delta_table_path)
+        else:
+            return None
