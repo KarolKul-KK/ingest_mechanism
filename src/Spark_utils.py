@@ -33,6 +33,7 @@ class SparkUtils:
         df = df.withColumn("Date", to_date(split(df[column], " ")[0], "yyyy-MM-dd"))
         return df
     
+    @staticmethod
     def extract_kda(df: DataFrame, column: str) -> DataFrame:
         df = df.withColumn("Kills", split(df[column], "/")[0].cast("int"))
         df = df.withColumn("Deads", split(df[column], "/")[1].cast("int"))
