@@ -6,7 +6,7 @@ from pyspark.sql.types import IntegerType
 
 class SparkUtils:
     @staticmethod
-    def create_spark_session(app_name, mysql_connector_path):
+    def create_spark_session(app_name: str, mysql_connector_path: str) -> SparkSession:
         conf = SparkConf().setAppName(app_name).setMaster("local[*]")
         conf.set("spark.logConf", "true")
         conf.set("spark.driver.extraClassPath", mysql_connector_path)
@@ -14,7 +14,7 @@ class SparkUtils:
         return SparkSession.builder.config(conf=conf).getOrCreate()
 
     @staticmethod
-    def convert_to_int(value):
+    def convert_to_int(value: str) -> DataFrame:
         if value.endswith('k'):
             value = value.replace('k', '')
             if '.' in value:
@@ -24,7 +24,7 @@ class SparkUtils:
         return int(value)
 
     @staticmethod
-    def convert_column_to_bool(df, column_name):
+    def convert_column_to_bool(df: DataFrame, column_name: str) -> DataFrame:
         return df.withColumn(column_name, when(df[column_name] == 1, True).otherwise(False))
     
     @staticmethod
@@ -33,6 +33,7 @@ class SparkUtils:
         df = df.withColumn("Date", to_date(split(df[column], " ")[0], "yyyy-MM-dd"))
         return df
     
+    @staticmethod
     def extract_kda(df: DataFrame, column: str) -> DataFrame:
         df = df.withColumn("Kills", split(df[column], "/")[0].cast("int"))
         df = df.withColumn("Deads", split(df[column], "/")[1].cast("int"))
