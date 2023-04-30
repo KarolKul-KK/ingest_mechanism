@@ -40,5 +40,12 @@ class SparkUtils:
         df = df.withColumn("Assists", split(df[column], "/")[2].cast("int"))
         df = df.drop(column)
         return df
+    
+    @staticmethod
+    def create_row_id_column(df: DataFrame, column1: str, column2: str = None) -> DataFrame:
+        if column2 is None:
+            return df.withColumn("RowId", df[column1].astype("string"))
+        else:
+            return df.withColumn("RowId", df[column1].astype("string") + df[column2].astype("string"))
 
 convert_to_int_udf = udf(SparkUtils.convert_to_int, IntegerType())
